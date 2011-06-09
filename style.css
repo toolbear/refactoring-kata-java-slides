@@ -1,0 +1,21 @@
+span.PASS, span.FAIL {
+  font-weight: bold;
+  padding: 2px;
+}
+span.PASS {
+  color: #363;
+  background-color: #0f0;
+}
+span.FAIL {
+  color: #faa;
+  background-color: #d00;
+}
+
+.content h1, .content h2, .content h3, .content h4, .content ul {
+  margin-left: 20px;
+  margin-right: 20px;
+}
+
+.content *, .content ul li {
+  text-align: left;
+}
