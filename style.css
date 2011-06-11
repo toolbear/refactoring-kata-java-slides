@@ -1,6 +1,6 @@
 span.PASS, span.FAIL {
   font-weight: bold;
-  padding: 2px;
+  padding: 1px;
 }
 span.PASS {
   color: #363;
@@ -18,4 +18,14 @@ span.FAIL {
 
 .content *, .content ul li {
   text-align: left;
+}
+.content.achievement *, .content.achievement ul li {
+  text-align: center;
+}
+.content.stance *, .content.stance ul li {
+  text-align: right;
+}
+
+.content.title-slide * {
+  text-align: center;
 }

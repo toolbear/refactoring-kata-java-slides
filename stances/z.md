@@ -1,4 +1,4 @@
-!SLIDE
+!SLIDE achievement
 
 ![achievement unlocked](achievement_unlocked.png)
 # Completionist

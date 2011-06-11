@@ -1,8 +1,8 @@
-!SLIDE
+!SLIDE title-slide
 
 # Refactoring Kata
 
-!SLIDE bullets small
+!SLIDE bullets
 
 * **Kata (型 or 形)** - is a Japanese word describing detailed choreographed patterns of movements practised either solo or in pairs  
   [http://en.wikipedia.org/wiki/Kata](http://en.wikipedia.org/wiki/Kata)
