@@ -16,16 +16,9 @@ span.FAIL {
   margin-right: 20px;
 }
 
-.content *, .content ul li {
+.content.stance *, .content.stance ul li {
   text-align: left;
 }
-.content.achievement *, .content.achievement ul li {
-  text-align: center;
-}
-.content.stance *, .content.stance ul li {
+.content.stance.title-slide * {
   text-align: right;
-}
-
-.content.title-slide * {
-  text-align: center;
 }
