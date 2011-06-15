@@ -1,1 +1,790 @@
-Refactoring Kata in Java Slides coming soon
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN"
+	"http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
+
+<html xmlns="http://www.w3.org/1999/xhtml" xml:lang="en" lang="en">
+<head>
+  <meta http-equiv="Content-Type" content="text/html; charset=utf-8"/>
+  <title>Refactoring Kata</title>
+
+  <link rel="stylesheet" href="./css/reset.css" type="text/css"/>
+  <link rel="stylesheet" href="./css/showoff.css" type="text/css"/>
+
+  <script type="text/javascript" src="./js/jquery-1.4.2.min.js"></script>
+  <script type="text/javascript" src="./js/jquery.cycle.all.js"></script>
+	<script type="text/javascript" src="./js/jquery-print.js"></script>
+  <script type="text/javascript" src="./js/jquery.batchImageLoad.js"></script>
+
+  <script type="text/javascript" src="./js/jquery.doubletap-0.1.js"></script>
+
+  <script type="text/javascript" src="./js/fg.menu.js"></script>
+  <script type="text/javascript" src="./js/showoff.js"></script>
+  <script type="text/javascript" src="./js/jTypeWriter.js"> </script>
+  <script type="text/javascript" src="./js/sh_main.min.js"></script>
+  <script type="text/javascript" src="./js/core.js"></script>
+  <script type="text/javascript" src="./js/showoffcore.js"></script>
+
+  <link type="text/css" href="./css/fg.menu.css" media="screen" rel="stylesheet" />
+  <link type="text/css" href="./css/theme/ui.all.css" media="screen" rel="stylesheet" />
+  <link type="text/css" href="./css/sh_style.css" rel="stylesheet" >
+
+  
+    <link rel="stylesheet" href="file/style.css" type="text/css"/>
+  
+
+  
+
+  <script type="text/javascript">
+  $(function(){
+    setupPreso(false, './');
+  });
+  </script>
+</head>
+
+<body>
+
+
+<a tabindex="0" href="#search-engines" class="fg-button fg-button-icon-right ui-widget ui-state-default ui-corner-all" id="navmenu"><span class="ui-icon ui-icon-triangle-1-s"></span>slides</a>
+<div id="navigation" class="hidden"></div>
+
+<div id="help">
+  <table>
+    <tr><td class="key">space, &rarr;</td><td>next slide</td></tr>
+    <tr><td class="key">&larr;</td><td>previous slide</td></tr>
+    <tr><td class="key">d</td><td>debug mode</td></tr>
+    <tr><td class="key">## &lt;ret&gt;</td><td>go to slide #</td></tr>
+    <tr><td class="key">c</td><td>table of contents (vi)</td></tr>
+    <tr><td class="key">f</td><td>toggle footer</td></tr>
+    <tr><td class="key">r</td><td>reload slides</td></tr>
+    <tr><td class="key">z</td><td>toggle help (this)</td></tr>
+  </table>
+</div>
+
+<div class="buttonNav">
+  <input type="submit" onClick="prevStep();" value="prev"/>
+  <input type="submit" onClick="nextStep();" value="next"/>
+</div>
+
+<div id="preso">loading presentation...</div>
+<div id="footer">
+  <span id="slideInfo"></span>
+  <span id="debugInfo"></span>
+  <span id="notesInfo"></span>
+</div>
+
+<div id="slides" class="offscreen" style="display:none;">
+<div class="slide" data-transition="none"><div class="content title-slide" ref="intro/intro/1">
+<h1>Refactoring Kata</h1></div>
+</div><div class="slide" data-transition="none"><div class="content bullets" ref="intro/intro/2">
+<ul>
+<li><strong>Kata (&#x578B; or &#x5F62;)</strong> - is a Japanese word describing detailed choreographed patterns of movements practised either solo or in pairs<br/>
+<a href="http://en.wikipedia.org/wiki/Kata">http://en.wikipedia.org/wiki/Kata</a></li>
+<li><strong>Code Kata</strong> - an exercise in programming which helps hone your skills through practice and repetition<br/>
+<a href="http://en.wikipedia.org/wiki/Kata_(programming)">http://en.wikipedia.org/wiki/Kata_(programming)</a></li>
+</ul>
+</div>
+</div><div class="slide" data-transition="scrollHorz"><div class="content stance title-slide" ref="stances/01/1">
+<h1>Stance 1</h1></div>
+</div><div class="slide" data-transition="none"><div class="content stance commandline incremental small" ref="stances/01/2">
+<h1>Checkout kata source</h1>
+
+<pre><code><code class="command">$ git clone git://github.com/toolbear/refactoring-kata-java.git</code><code class="result">
+Cloning into refactoring-kata-java...
+remote: Counting objects: 173, done.
+remote: Compressing objects: 100% (77/77), done.
+remote: Total 173 (delta 55), reused 160 (delta 54)
+Receiving objects: 100% (173/173), 17.37 KiB, done.
+Resolving deltas: 100% (55/55), done.
+</code></code></pre></div>
+</div><div class="slide" data-transition="none"><div class="content stance smbullets small" ref="stances/01/3">
+<h1>Configure Eclipse</h1>
+
+<ul>
+<li>Launch Eclipse w/ a pristine workspace</li>
+<li>Import <code>refactoring-kata-java/eclipse-kata-preferences.epf</code></li>
+</ul>
+</div>
+</div><div class="slide" data-transition="none"><div class="content stance smbullets small" ref="stances/01/4">
+<h2>General &#x2192; Workspace</h2>
+
+<ul>
+<li><em>line delimiter</em>: <code>Unix</code></li>
+</ul>
+
+
+<h2>Java &#x2192; Code Style &#x2192; Formatter</h2>
+
+<ul>
+<li><em>tab policy</em>: <code>spaces only</code></li>
+<li><em>indentation size</em>: <code>4</code></li>
+<li><em>max line width</em>: <code>120</code></li>
+</ul>
+
+
+<h2>Java &#x2192; Editor &#x2192; Save Actions</h2>
+
+<ul>
+<li><em>organize imports</em></li>
+<li><em>remove trailing whitespace</em>: <code>All lines</code></li>
+</ul>
+</div>
+</div><div class="slide" data-transition="none"><div class="content stance smbullets incremental small" ref="stances/01/5">
+<h1>Import project</h1>
+
+<ul>
+<li>Import <code>refactoring-kata-java</code></li>
+<li>Run <code>VideoStoreTests</code></li>
+<li><span class="PASS">&#x27F3; PASS</span></li>
+</ul>
+</div>
+</div><div class="slide" data-transition="scrollHorz"><div class="content stance title-slide" ref="stances/02/1">
+<h1>Stance 2</h1></div>
+</div><div class="slide" data-transition="none"><div class="content stance smbullets small" ref="stances/02/2">
+<h1><em>Smells in <code>VideoStoreTests</code></em></h1>
+
+<ul>
+<li>&#x2639; bad bracketing</li>
+<li>&#x2639; class fields at bottom</li>
+<li>&#x2639; test setup duplication, e.g <code>new Movie(...)</code></li>
+</ul>
+</div>
+</div><div class="slide" data-transition="none"><div class="content stance smbullets incremental small" ref="stances/02/3">
+<h1>Refactorings</h1>
+
+<ul>
+<li><span class="PASS">&#x27F3; PASS</span></li>
+</ul>
+
+
+<h2>&#x2672; Consistent style</h2>
+
+<ul>
+<li>fix brackets</li>
+<li>move fields to top of class</li>
+<li><span class="PASS">&#x27F3; PASS</span></li>
+</ul>
+
+
+<h2>&#x2672; Reduce test setup duplication</h2>
+
+<ul>
+<li>extract constants for movie objects</li>
+<li><span class="PASS">&#x27F3; PASS</span></li>
+</ul>
+</div>
+</div><div class="slide" data-transition="none"><div class="content achievement" ref="stances/02/4">
+<p><img src="file:///Users/tim-taylor/dojo/refactoring-kata-java-slides/stances/achievement_unlocked.png" alt="achievement unlocked"/></p>
+
+<h1>Refactorer</h1>
+
+<h2>1st successful refactoring under green</h2></div>
+</div><div class="slide" data-transition="scrollHorz"><div class="content stance title-slide" ref="stances/03/1">
+<h1>Stance 3</h1></div>
+</div><div class="slide" data-transition="none"><div class="content stance smbullets small" ref="stances/03/2">
+<h1><em>Smells in <code>VideoStoreTests</code></em></h1>
+
+<ul>
+<li>&#x2639; asserting on strings with embedded data values</li>
+</ul>
+</div>
+</div><div class="slide" data-transition="none"><div class="content stance smbullets incremental small" ref="stances/03/3">
+<h1>Refactorings</h1>
+
+<ul>
+<li><span class="PASS">&#x27F3; PASS</span></li>
+</ul>
+
+
+<h2>&#x2672; Reveal hidden tests embedded in string assertions</h2>
+
+<ul>
+<li>break on newlines in expected value strings</li>
+<li><span class="PASS">&#x27F3; PASS</span></li>
+</ul>
+
+
+<h2>&#x2672; Extract <code>amountOwed()</code> from <code>statement()</code></h2>
+
+<ul>
+<li>TFD <code>amountOwed()</code> in <code>Customer</code></li>
+<li><p><span class="FAIL">&#x27F3; FAIL</span></p></li>
+<li><p><em>Change of plan; <code>Customer</code> is too smelly</em></p></li>
+<li>Revert changes to <code>Customer</code></li>
+<li><code>@Ignore</code> test for <code>amountOwed()</code></li>
+<li><span class="PASS">&#x27F3; PASS</span></li>
+</ul>
+</div>
+</div><div class="slide" data-transition="scrollHorz"><div class="content stance title-slide" ref="stances/04/1">
+<h1>Stance 4</h1></div>
+</div><div class="slide" data-transition="none"><div class="content stance smbullets small" ref="stances/04/2">
+<h1><em>Smells in <code>Customer</code></em></h1>
+
+<ul>
+<li>&#x2639; bad bracketing</li>
+<li>&#x2639; class fields at bottom</li>
+<li>&#x2639; Raw types <code>Vector</code> and <code>Enumeration</code></li>
+<li>&#x2639; non-idiomatic foreach loop</li>
+</ul>
+</div>
+</div><div class="slide" data-transition="none"><div class="content stance smbullets incremental small" ref="stances/04/3">
+<h1>Refactorings</h1>
+
+<ul>
+<li><span class="PASS">&#x27F3; PASS</span></li>
+</ul>
+
+
+<h2>&#x2672; Consistent style</h2>
+
+<ul>
+<li>fix brackets</li>
+<li>move fields to top of class</li>
+<li><span class="PASS">&#x27F3; PASS</span></li>
+</ul>
+
+
+<h2>&#x2672; Use typesafe collection &amp; idiomatic <em>foreach</em></h2>
+
+<ul>
+<li>Convert <code>Vector</code> &#x2192; <code>List&lt;Rental&gt;</code></li>
+<li>Delete <code>Enumeration rentals = &#x2026;</code></li>
+<li>Convert <code>while(&#x2026;)</code> &#x2192; <code>for(Rental each : rentals)</code></li>
+<li><span class="PASS">&#x27F3; PASS</span></li>
+</ul>
+</div>
+</div><div class="slide" data-transition="none"><div class="content achievement" ref="stances/04/4">
+<p><img src="file:///Users/tim-taylor/dojo/refactoring-kata-java-slides/stances/achievement_unlocked.png" alt="achievement unlocked"/></p>
+
+<h1>Genericist</h1>
+
+<h2>Replaced raw type with typesafe generic</h2></div>
+</div><div class="slide" data-transition="scrollHorz"><div class="content stance title-slide" ref="stances/05/1">
+<h1>Stance 5</h1></div>
+</div><div class="slide" data-transition="none"><div class="content stance smbullets incremental small" ref="stances/05/2">
+<h1>Refactorings</h1>
+
+<ul>
+<li><span class="PASS">&#x27F3; PASS</span></li>
+</ul>
+
+
+<h2>&#x2672; Extract <code>amountOwed()</code> from <code>statement()</code> (Take #2)</h2>
+
+<ul>
+<li>remove <code>@Ignore</code> from <code>@Test &#x2026; singleNewReleaseAmountOwed()</code></li>
+<li>create <code>amountOwed()</code>, return <code>0.0</code></li>
+<li><p><span class="FAIL">&#x27F3; FAIL</span></p></li>
+<li><p><em>Partial refactoring: retain amount owed calculation in a field as
+a side-effect of <code>statement()</code></em></p></li>
+<li><code>@Ignore</code> test</li>
+<li><span class="PASS">&#x27F3; PASS</span></li>
+</ul>
+</div>
+</div><div class="slide" data-transition="none"><div class="content stance smbullets incremental small" ref="stances/05/3">
+<h2>&#x2672; Save amount owed calculation</h2>
+
+<ul>
+<li>rename <code>totalAmount</code> &#x2192; <code>amountOwed</code></li>
+<li>extract <code>amountOwed</code> to a field</li>
+<li><span class="PASS">&#x27F3; PASS</span></li>
+</ul>
+
+
+<h2>&#x2672; Direct assertion on <code>amountOwed</code></h2>
+
+<ul>
+<li>return <code>amountOwed</code> from <code>amountOwed()</code></li>
+<li>remove @Ignore</li>
+<li><p><span class="FAIL">&#x27F3; FAIL</span></p></li>
+<li><p>call <code>customer.statement()</code> from test</p></li>
+<li><span class="PASS">&#x27F3; PASS</span></li>
+</ul>
+</div>
+</div><div class="slide" data-transition="none"><div class="content stance smbullets small" ref="stances/05/4">
+<h1><em>New Smell in <code>Customer</code></em></h1>
+
+<ul>
+<li>&#x2639; introduced a <em>temporal dependency</em> on <code>statement()</code></li>
+</ul>
+</div>
+</div><div class="slide" data-transition="scrollHorz"><div class="content stance title-slide" ref="stances/06/1">
+<h1>Stance 6</h1></div>
+</div><div class="slide" data-transition="none"><div class="content stance bullets" ref="stances/06/2">
+<ul>
+<li>Repeat extract method from <code>statement()</code> for frequent renter
+points calculation</li>
+</ul>
+</div>
+</div><div class="slide" data-transition="none"><div class="content stance smbullets incremental small" ref="stances/06/3">
+<h1>Refactorings</h1>
+
+<ul>
+<li><span class="PASS">&#x27F3; PASS</span></li>
+</ul>
+
+
+<h2>&#x2672; Save frequent renter points calculation</h2>
+
+<ul>
+<li>rename <code>frequentRenterPoints</code> &#x2192; <code>earnedFrequentRenterPoints</code></li>
+<li>extract <code>earnedFrequentRenterPoints</code> to a field</li>
+<li><span class="PASS">&#x27F3; PASS</span></li>
+</ul>
+</div>
+</div><div class="slide" data-transition="none"><div class="content stance smbullets incremental small" ref="stances/06/4">
+<h2>&#x2672; Direct assertion on <code>earnedFrequentRenterPoints</code></h2>
+
+<ul>
+<li>TFD <code>earnedFrequentRenterPoints()</code></li>
+<li>call <code>customer.statement()</code> before assertion</li>
+<li><span class="FAIL">&#x27F3; FAIL</span></li>
+<li>return <code>earnedFrequentRenterPoints</code> from <code>earnedFrequentRenterPoints()</code></li>
+<li><span class="PASS">&#x27F3; PASS</span></li>
+<li>delete <code>@Test &#x2026; testSingleNewReleaseStatement()</code></li>
+<li><span class="PASS">&#x27F3; PASS</span></li>
+</ul>
+</div>
+</div><div class="slide" data-transition="none"><div class="content stance smbullets incremental small" ref="stances/06/5">
+<h2>&#x2672; Convert more tests to direct assertions</h2>
+
+<ul>
+<li><code>@Test &#x2026; testDualNewReleaseStatement()</code></li>
+<li><span class="PASS">&#x27F3; PASS</span></li>
+<li><code>@Test &#x2026; testSingleChildrensStatement()</code></li>
+<li><p><span class="PASS">&#x27F3; PASS</span></p></li>
+<li><p>retain but rename <code>testMultipleRegularStatement()</code> &#x2192; <code>multipleRegularStatement()</code></p></li>
+<li>add 2 tests for <code>amountOwed()</code> &amp; <code>earnedFrequentRenterPoints()</code> for the multiple regular scenario</li>
+<li><span class="PASS">&#x27F3; PASS</span></li>
+</ul>
+</div>
+</div><div class="slide" data-transition="scrollHorz"><div class="content stance title-slide" ref="stances/07/1">
+<h1>Stance 7</h1></div>
+</div><div class="slide" data-transition="none"><div class="content stance smbullets small" ref="stances/07/2">
+<h1><em>Smells in <code>Customer</code></em></h1>
+
+<ul>
+<li>&#x2639; long <code>statement()</code> method with comment</li>
+<li>&#x2639; many responsibilities in <code>statement()</code></li>
+<li>&#x2639; temporal dependency in <code>amountOwed()</code> &amp; <code>earnedFrequentRenterPoints()</code></li>
+</ul>
+</div>
+</div><div class="slide" data-transition="none"><div class="content stance smbullets incremental small" ref="stances/07/3">
+<h1>Refactorings</h1>
+
+<ul>
+<li><span class="PASS">&#x27F3; PASS</span></li>
+</ul>
+
+
+<h2>&#x2672; Extract <code>rentalAmount()</code> from <code>statement()</code></h2>
+
+<ul>
+<li>rename <code>each</code> &#x2192; <code>rental</code></li>
+<li><p><span class="PASS">&#x27F3; PASS</span></p></li>
+<li><p>extract method named <code>rentalAmount()</code></p></li>
+<li>delete comment</li>
+<li><span class="PASS">&#x27F3; PASS</span></li>
+</ul>
+</div>
+</div><div class="slide" data-transition="none"><div class="content stance small" ref="stances/07/4">
+<h2>Closer look at amount owed calculation in <code>statement()</code></h2>
+
+<pre class="sh_java"><code>public String statement () {
+    amountOwed = 0;
+    &#x2026;
+    for (Rental rental : rentals) {
+        double thisAmount = rentalAmount(rental);
+        &#x2026;
+        amountOwed += thisAmount;
+   }
+   &#x2026;
+}   </code></pre></div>
+</div><div class="slide" data-transition="none"><div class="content stance smbullets incremental small" ref="stances/07/5">
+<h2>&#x2672; Break temporal dependency in <code>amountOwed()</code></h2>
+
+<ul>
+<li>rewrite <code>amountOwed()</code> to accumulate in local var using <code>rentalAmount()</code></li>
+<li><p><span class="PASS">&#x27F3; PASS</span></p></li>
+<li><p>use <code>amountOwed()</code> in <code>statement()</code></p></li>
+<li><p><span class="PASS">&#x27F3; PASS</span></p></li>
+<li><p>delete <code>amountOwed += thisAmount</code></p></li>
+<li><p><span class="PASS">&#x27F3; PASS</span></p></li>
+<li><p>inline <code>thisAmount</code></p></li>
+<li><p><span class="PASS">&#x27F3; PASS</span></p></li>
+<li><p>remove <code>amountOwed</code></p></li>
+<li><p><span class="PASS">&#x27F3; PASS</span></p></li>
+<li><p>remove calls to <code>customer.statement()</code> from <code>amountOwed()</code> tests</p></li>
+<li><span class="PASS">&#x27F3; PASS</span></li>
+</ul>
+</div>
+</div><div class="slide" data-transition="none"><div class="content stance small" ref="stances/07/6">
+<h2>Side-effects in frequent renter points calculation</h2></div>
+</div><div class="slide" data-transition="none"><div class="content stance smbullets small" ref="stances/07/7">
+<pre class="sh_java"><code>earnedFrequentRenterPoints = 0;
+&#x2026;
+for (Rental rental : rentals) {
+    earnedFrequentRenterPoints++; // &#x261C; side-effect
+
+    if (/* condition */)
+        earnedFrequentRenterPoints++; // &#x261C; side-effect
+
+    &#x2026;
+}</code></pre></div>
+</div><div class="slide" data-transition="none"><div class="content stance smbullets small" ref="stances/07/8">
+<pre class="sh_java"><code>earnedFrequentRenterPoints = 0;
+&#x2026;
+for (Rental rental : rentals) {
+
+    // calculate w/o side-effects
+    int points;
+    if (/* condition */)
+        points = 2;
+    else
+        points = 1;
+
+    // then accumulate
+    earnedFrequentRenterPoints += points;
+    &#x2026;
+}</code></pre></div>
+</div><div class="slide" data-transition="none"><div class="content stance smbullets incremental small" ref="stances/07/9">
+<h2>&#x2672; Prep <code>statement()</code> for extract method</h2>
+
+<ul>
+<li>isolate calculation from side effects</li>
+<li><span class="PASS">&#x27F3; PASS</span></li>
+</ul>
+
+
+<h2>&#x2672; Extract <code>frequentRenterPoints()</code> from <code>statement()</code></h2>
+
+<ul>
+<li>extract method</li>
+<li><p><span class="PASS">&#x27F3; PASS</span></p></li>
+<li><p>inline <code>frequentRenterPoints</code> temp var</p></li>
+<li><p><span class="PASS">&#x27F3; PASS</span></p></li>
+<li><p>eliminate temp var in <code>frequentRenterPoints()</code></p></li>
+<li><span class="PASS">&#x27F3; PASS</span></li>
+</ul>
+</div>
+</div><div class="slide" data-transition="none"><div class="content stance smbullets incremental small" ref="stances/07/10">
+<h2>&#x2672; Break temporal dependency in <code>earnedFrequentRenterPoints()</code></h2>
+
+<ul>
+<li>rewrite <code>earnedFrequentRenterPoints()</code> to accumulate in local var using <code>frequentRenterPoints()</code></li>
+<li><p><span class="PASS">&#x27F3; PASS</span></p></li>
+<li><p>use <code>earnedFrequentRenterPoints()</code> in <code>statement()</code></p></li>
+<li><p><span class="PASS">&#x27F3; PASS</span></p></li>
+<li><p>remove <code>earnedFrequentRenterPoints += frequentRenterPoints(rental)</code></p></li>
+<li><p><span class="PASS">&#x27F3; PASS</span></p></li>
+<li><p>remove field <code>earnedFrequentRenterPoints</code></p></li>
+<li><p><span class="PASS">&#x27F3; PASS</span></p></li>
+<li><p>remove calls to <code>customer.statement()</code> from <code>earnedFrequentRenterPoints()</code> tests</p></li>
+<li><span class="PASS">&#x27F3; PASS</span></li>
+</ul>
+</div>
+</div><div class="slide" data-transition="none"><div class="content stance smbullets small" ref="stances/07/11">
+<h2>&#x2672; Cleanup <code>Customer</code></h2>
+
+<ul>
+<li>Format code on <code>Customer.java</code></li>
+<li><span class="PASS">&#x27F3; PASS</span></li>
+</ul>
+</div>
+</div><div class="slide" data-transition="none"><div class="content achievement" ref="stances/07/12">
+<p><img src="file:///Users/tim-taylor/dojo/refactoring-kata-java-slides/stances/achievement_unlocked.png" alt="achievement unlocked"/></p>
+
+<h1>Stamina</h1>
+
+<h2>Endured a marathon stance</h2></div>
+</div><div class="slide" data-transition="scrollHorz"><div class="content stance title-slide" ref="stances/08/1">
+<h1>Stance 8</h1></div>
+</div><div class="slide" data-transition="none"><div class="content stance smbullets small" ref="stances/08/2">
+<h1><em>Smells in <code>statement()</code></em></h1>
+
+<ul>
+<li>&#x2639; String concatenation</li>
+<li>&#x2639; Still multiple resonsibilities</li>
+</ul>
+</div>
+</div><div class="slide" data-transition="none"><div class="content stance smbullets incremental small" ref="stances/08/3">
+<h1>Refactorings</h1>
+
+<ul>
+<li><span class="PASS">&#x27F3; PASS</span></li>
+</ul>
+
+
+<h2>&#x2672; Use <code>StringBuilder</code></h2>
+
+<ul>
+<li>append statement text with <code>StringBuilder</code></li>
+<li><span class="PASS">&#x27F3; PASS</span></li>
+<li>rename <code>result</code> &#x2192; <code>statement</code></li>
+<li><span class="PASS">&#x27F3; PASS</span></li>
+</ul>
+</div>
+</div><div class="slide" data-transition="none"><div class="content stance smbullets incremental small" ref="stances/08/4">
+<h2>&#x2672; Extract methods from <code>statement()</code></h2>
+
+<ul>
+<li>extract <code>appendStatementFooter()</code></li>
+<li><p><span class="PASS">&#x27F3; PASS</span></p></li>
+<li><p>extract <code>appendStatementLineItem()</code></p></li>
+<li><p><span class="PASS">&#x27F3; PASS</span></p></li>
+<li><p>extract <code>appendStatementHeader()</code></p></li>
+<li><span class="PASS">&#x27F3; PASS</span></li>
+</ul>
+</div>
+</div><div class="slide" data-transition="scrollHorz"><div class="content stance title-slide" ref="stances/09/1">
+<h1>Stance 9</h1></div>
+</div><div class="slide" data-transition="none"><div class="content stance smbullets small" ref="stances/09/2">
+<h1><em>Smells in <code>Customer</code></em></h1>
+
+<ul>
+<li>&#x2639; feature envy with <code>Rental</code></li>
+</ul>
+</div>
+</div><div class="slide" data-transition="none"><div class="content stance smbullets incremental small" ref="stances/09/3">
+<h1>Refactorings</h1>
+
+<ul>
+<li><span class="PASS">&#x27F3; PASS</span></li>
+</ul>
+
+
+<h2>&#x2672; Move <em>rental</em> behavior into <code>Rental</code></h2>
+
+<ul>
+<li>move <code>rentalAmount()</code> to <code>Rental</code> as <code>amount()</code></li>
+<li><p><span class="PASS">&#x27F3; PASS</span></p></li>
+<li><p>move <code>frequentRenterPoints()</code> to <code>Rental</code></p></li>
+<li><span class="PASS">&#x27F3; PASS</span></li>
+</ul>
+</div>
+</div><div class="slide" data-transition="scrollHorz"><div class="content stance title-slide" ref="stances/10/1">
+<h1>Stance 10</h1></div>
+</div><div class="slide" data-transition="none"><div class="content stance smbullets small" ref="stances/10/2">
+<h1><em>Smells in <code>Rental</code></em></h1>
+
+<ul>
+<li>&#x2639; bad brackets</li>
+<li>&#x2639; attributes at bottom</li>
+<li>&#x2639; feature envy with <code>Movie</code></li>
+</ul>
+</div>
+</div><div class="slide" data-transition="none"><div class="content stance smbullets incremental small" ref="stances/10/3">
+<h1>Refactorings</h1>
+
+<ul>
+<li><span class="PASS">&#x27F3; PASS</span></li>
+</ul>
+
+
+<h2>&#x2672; Consistent code style</h2>
+
+<ul>
+<li>fix brackets</li>
+<li>move fields to top</li>
+<li><span class="PASS">&#x27F3; PASS</span></li>
+</ul>
+</div>
+</div><div class="slide" data-transition="none"><div class="content stance smbullets incremental small" ref="stances/10/4">
+<h2>&#x2672; Move <code>amount()</code> behavior to <code>Movie</code></h2>
+
+<ul>
+<li>introduce temp vars <code>movie = getMovie()</code> and <code>daysRented = getDaysRented()</code></li>
+<li><span class="PASS">&#x27F3; PASS</span></li>
+<li>extract overloaded <code>amount(Movie movie, int daysRented)</code> from <code>amount()</code></li>
+<li><span class="PASS">&#x27F3; PASS</span></li>
+<li>inline temp vars in <code>amount()</code></li>
+<li><span class="PASS">&#x27F3; PASS</span></li>
+<li>move <code>amount(Movie, int)</code> to <code>Movie</code></li>
+<li><span class="PASS">&#x27F3; PASS</span></li>
+</ul>
+</div>
+</div><div class="slide" data-transition="none"><div class="content stance smbullets incremental small" ref="stances/10/5">
+<h2>&#x2672; Move <code>frequentRenterPoints()</code> behavior to <code>Movie</code></h2>
+
+<ul>
+<li>introduce temp vars <code>movie = getMovie()</code> and <code>daysRented = getDaysRented()</code></li>
+<li><span class="PASS">&#x27F3; PASS</span></li>
+<li>extract overloaded <code>frequentRenterPoints(Movie, int)</code> from <code>frequentRenterPoints()</code></li>
+<li><span class="PASS">&#x27F3; PASS</span></li>
+<li>inline temp vars in <code>frequentRenterPoints()</code></li>
+<li><span class="PASS">&#x27F3; PASS</span></li>
+<li>move <code>frequentRenterPoints(Movie, int)</code> to <code>Movie</code></li>
+<li><span class="PASS">&#x27F3; PASS</span></li>
+</ul>
+</div>
+</div><div class="slide" data-transition="none"><div class="content achievement" ref="stances/10/6">
+<p><img src="file:///Users/tim-taylor/dojo/refactoring-kata-java-slides/stances/achievement_unlocked.png" alt="achievement unlocked"/></p>
+
+<h1>J-Haul</h1>
+
+<h2>Moved methods to a better home</h2></div>
+</div><div class="slide" data-transition="scrollHorz"><div class="content stance title-slide" ref="stances/11/1">
+<h1>Stance 11</h1></div>
+</div><div class="slide" data-transition="none"><div class="content stance smbullets small" ref="stances/11/2">
+<h1><em>Smells in <code>Rental</code></em></h1>
+
+<ul>
+<li>&#x2639; bad brackets</li>
+<li>&#x2639; conditional behavior based on type codes</li>
+</ul>
+</div>
+</div><div class="slide" data-transition="none"><div class="content stance smbullets incremental small" ref="stances/11/3">
+<h1>Refactorings</h1>
+
+<ul>
+<li><span class="PASS">&#x27F3; PASS</span></li>
+</ul>
+
+
+<h2>&#x2672; Consistent style</h2>
+
+<ul>
+<li>fix brackets</li>
+<li><span class="PASS">&#x27F3; PASS</span></li>
+</ul>
+</div>
+</div><div class="slide" data-transition="none"><div class="content stance smbullets incremental small" ref="stances/11/4">
+<h2>&#x2672; Replace conditional with polymorphism</h2>
+
+<ul>
+<li>introduce <code>ChildrensMovie</code> subclass</li>
+<li><span class="PASS">&#x27F3; PASS</span></li>
+<li>pass <code>CHILDRENS_MOVIE</code> to <code>super(&#x2026;)</code></li>
+<li><span class="PASS">&#x27F3; PASS</span></li>
+<li>change method signature on <code>ChildrensMovie()</code> constructor, remove <code>priceCode</code></li>
+<li><span class="PASS">&#x27F3; PASS</span></li>
+</ul>
+
+
+<h2>Repeat for <code>NewReleaseMovie</code></h2>
+
+<ul>
+<li>introduce <code>NewReleaseMovie</code> subclass</li>
+<li><span class="PASS">&#x27F3; PASS</span></li>
+<li>pass <code>NEW_RELEASE_MOVIE</code> to <code>super(&#x2026;)</code></li>
+<li><span class="PASS">&#x27F3; PASS</span></li>
+<li>change method signature on <code>NewReleaseMovie()</code> constructor, remove <code>priceCode</code></li>
+<li><span class="PASS">&#x27F3; PASS</span></li>
+</ul>
+</div>
+</div><div class="slide" data-transition="none"><div class="content stance smbullets incremental small" ref="stances/11/5">
+<h2>Repeat for <code>RegularMovie</code></h2>
+
+<ul>
+<li>introduce <code>RegularMovie</code> subclass</li>
+<li><span class="PASS">&#x27F3; PASS</span></li>
+<li>pass <code>REGULAR_MOVIE</code> to <code>super(&#x2026;)</code></li>
+<li><span class="PASS">&#x27F3; PASS</span></li>
+<li>change method signature on <code>RegularMovie()</code> constructor, remove <code>priceCode</code></li>
+<li><span class="PASS">&#x27F3; PASS</span></li>
+</ul>
+</div>
+</div><div class="slide" data-transition="none"><div class="content stance smbullets incremental small" ref="stances/11/6">
+<h2>Push <code>frequentRenterPoints()</code> down to subclasses</h2>
+
+<ul>
+<li>copy <code>frequentRenterPoints</code> into <code>ChildrensMovie</code></li>
+<li><span class="PASS">&#x27F3; PASS</span></li>
+<li>eliminate condition</li>
+<li><p><span class="PASS">&#x27F3; PASS</span></p></li>
+<li><p>copy <code>frequentRenterPoints</code> into <code>NewReleaseMovie</code></p></li>
+<li><span class="PASS">&#x27F3; PASS</span></li>
+<li>eliminate <code>getPriceCode() == Movie.NEW_RELEASE &amp;&amp;</code> from conditional</li>
+<li><p><span class="PASS">&#x27F3; PASS</span></p></li>
+<li><p>copy <code>frequentRenterPoints</code> into <code>RegularMovie</code>; eliminate condition</p></li>
+<li><span class="PASS">&#x27F3; PASS</span></li>
+</ul>
+</div>
+</div><div class="slide" data-transition="none"><div class="content stance smbullets incremental small" ref="stances/11/7">
+<h2>Make <code>Movie</code> abstract</h2>
+
+<ul>
+<li>change <code>Movie</code> to an abstract class</li>
+<li><span class="PASS">&#x27F3; PASS</span></li>
+<li>change <code>frequentRenterPoints</code> to an abstract method</li>
+<li><span class="PASS">&#x27F3; PASS</span></li>
+</ul>
+</div>
+</div><div class="slide" data-transition="none"><div class="content stance smbullets incremental small" ref="stances/11/8">
+<h2>&#x2672; Replace switch with polymorphism</h2>
+
+<ul>
+<li>in <code>Movie</code> push down <code>amount()</code>, leaving <code>protected abstract amount()</code> behind</li>
+<li><p><span class="PASS">&#x27F3; PASS</span></p></li>
+<li><p>remove unrelated code form <code>ChildrensMovie.amount()</code></p></li>
+<li><span class="PASS">&#x27F3; PASS</span></li>
+<li>simplify <code>ChildrensMovie.amount()</code></li>
+<li><p><span class="PASS">&#x27F3; PASS</span></p></li>
+<li><p>remove unrelated code form <code>NewReleaseMovie.amount()</code></p></li>
+<li><span class="PASS">&#x27F3; PASS</span></li>
+<li>simplify <code>NewReleaseMovie.amount()</code></li>
+<li><p><span class="PASS">&#x27F3; PASS</span></p></li>
+<li><p>repeat for <code>RegularMovie.amount()</code></p></li>
+<li><span class="PASS">&#x27F3; PASS</span></li>
+</ul>
+</div>
+</div><div class="slide" data-transition="none"><div class="content stance smbullets incremental small" ref="stances/11/9">
+<h2>&#x2672; Eliminate type code</h2>
+
+<ul>
+<li>eliminate <code>priceCode</code> property</li>
+<li><span class="PASS">&#x27F3; PASS</span></li>
+<li>remove <em>price code</em> integer constants</li>
+<li><span class="PASS">&#x27F3; PASS</span></li>
+</ul>
+</div>
+</div><div class="slide" data-transition="scrollHorz"><div class="content stance title-slide" ref="stances/review/1">
+<h1>Recap</h1></div>
+</div><div class="slide" data-transition="none"><div class="content stance smbullets small" ref="stances/review/2">
+<h2><code>VideoStoreTests</code></h2>
+
+<ul>
+<li>cleaner, concise tests</li>
+<li>more obvious that we're missing some coverage (say around new releases and days rented)</li>
+</ul>
+
+
+<h2><code>Customer</code></h2>
+
+<ul>
+<li/>
+</ul>
+
+
+<h2><code>Rental</code></h2>
+
+<h2><code>Movie</code></h2>
+
+<ul>
+<li>specialized classes instead of big single class with high cyclomatic complexity</li>
+</ul>
+</div>
+</div><div class="slide" data-transition="none"><div class="content achievement" ref="stances/z">
+<p><img src="file:///Users/tim-taylor/dojo/refactoring-kata-java-slides/stances/achievement_unlocked.png" alt="achievement unlocked"/></p>
+
+<h1>Completionist</h1>
+
+<h2>Finished the Refactoring Kata</h2></div>
+</div><div class="slide" data-transition="none"><div class="content smbullets center" ref="fin/fin">
+<h1>Refactoring Kata</h1>
+
+<ul>
+<li><a href="https://github.com/toolbear/refactoring-kata-java">github.com/toolbear/refactoring-kata-java</a></li>
+<li><p><a href="https://github.com/toolbear/refactoring-kata-java-slides">github.com/toolbear/refactoring-kata-java-slides</a></p></li>
+<li/>
+<li><p><img src="file:///Users/tim-taylor/dojo/refactoring-kata-java-slides/fin/toolbear.jpg" alt="toolbear"/>
+Tim Taylor<br/>
+<a href="http://twitter.com/toolbear74">@toolbear74</a></p></li>
+<li/>
+<li><p><img src="file:///Users/tim-taylor/dojo/refactoring-kata-java-slides/fin/craftsmanadam.jpg" alt="craftsmanadam"/>
+Adam Martin<br/>
+<a href="http://twitter.com/craftsmanadam">@craftsmanadam</a></p></li>
+</ul>
+</div>
+</div></div>
+
+</body>
+</html>
